@@ -254,7 +254,7 @@ export default function Rachel({ myCase, loading }: RachelProps) {
       (doc) => `https://avaloncasesbucket.s3.amazonaws.com/${doc.file_name}`
     );
 
-    const socket = io("ws://127.0.0.1:8000");
+    const socket = io("ws://avalon-server-ce1fef710e42.herokuapp.com/");
 
     socket.on("connect", () => {
       socket.emit("rachel", {
