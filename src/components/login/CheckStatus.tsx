@@ -15,11 +15,11 @@ export default function CheckStatus({ children }: CheckStatusProps) {
     }
   }, [status]);
 
-  if (status === "loading") {
-    return <Loader display={true} />;
-  }
-
   if (status === "unauthenticated") {
     return <>{children}</>;
+  }
+
+  if (status === "loading") {
+    return <Loader display={true} />;
   }
 }

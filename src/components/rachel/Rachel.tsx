@@ -251,7 +251,8 @@ export default function Rachel({ myCase, loading }: RachelProps) {
     ]);
 
     const doc_links = selectedDocuments.map(
-      (doc) => `https://avaloncasesbucket.s3.amazonaws.com/${doc.file_name}`
+      (doc) =>
+        `https://${process.env.NEXT_PUBLIC_BUCKET}.s3.amazonaws.com/${doc.file_name}`
     );
 
     const socket = io("ws://avalon-server-ce1fef710e42.herokuapp.com/");

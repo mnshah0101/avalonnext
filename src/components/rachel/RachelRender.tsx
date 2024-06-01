@@ -33,9 +33,17 @@ export default function RachelRender() {
   const [myCase, setMyCase] = useState<Case>(initialCase);
   const [loading, setLoading] = useState<boolean>(false);
 
+  let authenticated = false;
+
   async function getCases() {
     try {
-      if (status === "loading") return;
+      if (status !== "unauthenticated" && status !== "authenticated") {
+        return <Loader display={true} />;
+      }
+
+      if (status === "unauthenticated") {
+        window.location.href = "/login";
+      }
 
       const localCases = localStorage.getItem("cases");
       if (localCases) {
@@ -135,16 +143,30 @@ export default function RachelRender() {
     getCases();
   }, [status]);
 
+  if (status !== "unauthenticated" && status !== "authenticated") {
+    return <Loader display={true} />;
+  }
+
+  if (status === "unauthenticated") {
+    window.location.href = "/login";
+  }
+
+  if (status === "authenticated") {
+    authenticated = true;
+  }
+
   return (
     <>
-      <RachelNavbar
-        key={myCase._id}
-        myCase={myCase}
-        updateCase={updateCase}
-        cases={cases}
-      >
-        <Rachel loading={loading} key={myCase._id} myCase={myCase} />
-      </RachelNavbar>
+      {authenticated && (
+        <RachelNavbar
+          key={myCase._id}
+          myCase={myCase}
+          updateCase={updateCase}
+          cases={cases}
+        >
+          <Rachel loading={loading} key={myCase._id} myCase={myCase} />
+        </RachelNavbar>
+      )}
     </>
   );
 }

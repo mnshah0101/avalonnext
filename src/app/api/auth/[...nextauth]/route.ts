@@ -91,7 +91,7 @@ async function authenticate(email: string, password: string): Promise<AuthRespon
 
 
 
-export const authOptions: NextAuthOptions = {
+ const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',

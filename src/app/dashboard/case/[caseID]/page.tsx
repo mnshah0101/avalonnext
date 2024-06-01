@@ -125,6 +125,7 @@ export default function CasePage() {
       setTotalProcessing(totalProcessing);
       setAverageRelevancy(Math.round((totalRelevancy / totalDocs) * 100) / 100);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   }
