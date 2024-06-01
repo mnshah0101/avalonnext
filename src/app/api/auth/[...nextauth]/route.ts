@@ -57,11 +57,15 @@ async function authenticate(email: string, password: string): Promise<AuthRespon
       user: user
     }
 
+    console.log("this is the auth response")
+
           console.log(authResponse)
 
 
     return authResponse;
   } catch (error) {
+    console.log("this is the error")
+    console.log(error)
     let authResponse: AuthResponse = {
       status: 400,
       user: {
