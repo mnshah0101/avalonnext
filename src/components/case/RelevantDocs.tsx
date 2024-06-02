@@ -49,7 +49,7 @@ export default function RelevantDocs({ documents }: RelevantDocsProps) {
             className="border-b border-gray-300 hover:bg-gray-100 cursor-pointer"
           >
             <td className="px-6 py-4 font-medium" style={{ width: "50vh" }}>
-              {doc.file_name.split("/")[1].slice(30)}
+              {doc.file_name.split("/")[1].slice(32)}
             </td>
             <td className="px-6 py-4" style={{ width: "30vh" }}>
               {formatDateString(doc.date)}
