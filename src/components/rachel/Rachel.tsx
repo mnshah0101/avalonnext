@@ -255,7 +255,7 @@ export default function Rachel({ myCase, loading }: RachelProps) {
         `https://${process.env.NEXT_PUBLIC_BUCKET}.s3.amazonaws.com/${doc.file_name}`
     );
 
-    const socket = io("ws://avalon-server-ce1fef710e42.herokuapp.com/");
+    const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`);
 
     socket.on("connect", () => {
       socket.emit("rachel", {
