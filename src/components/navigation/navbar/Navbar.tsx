@@ -13,9 +13,6 @@ export default function Navbar({ children }: NavbarProps) {
 
   let authenticated = false;
 
-  console.log("session");
-  console.log(session);
-
   if (status !== "unauthenticated" && status !== "authenticated") {
     return <Loader display={true} />;
   }

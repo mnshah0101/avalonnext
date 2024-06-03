@@ -27,9 +27,7 @@ function FileInput() {
       restrictions: { allowedFileTypes: [".pdf", ".txt", ".doc", ".docx"] },
     });
 
-    uppyInstance.on("file-added", (file) => {
-      console.log(file);
-    });
+    uppyInstance.on("file-added", (file) => {});
 
     return uppyInstance;
   });
@@ -45,8 +43,6 @@ function FileInput() {
         setLoading(true);
 
         const files = uppy.getFiles();
-
-        console.log(files);
 
         if (files.length < 1) {
           setError("Please select a file to upload or wait for upload to end.");
@@ -79,11 +75,14 @@ function FileInput() {
           return;
         }
 
-        console.log(responseData);
-
         localStorage.removeItem("cases");
 
-        fetch(process.env.NEXT_PUBLIC_CELERY_URL + "/update_pinecone_index");
+        let update_url =
+          process.env.NEXT_PUBLIC_CELERY_URL + "/update_pinecone_index";
+
+        let update_response = await fetch(update_url);
+
+        update_response = await update_response.json();
 
         setLoading(false);
 

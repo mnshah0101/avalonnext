@@ -95,8 +95,6 @@ export default function CasePage() {
 
       data = await response.json();
 
-      console.log(data);
-
       myCase.documents = data.object;
 
       setCase(myCase);

@@ -27,8 +27,6 @@ export default function RachelNavbar({
   myCase,
   updateCase,
 }: NavbarProps) {
-  console.log(myCase);
-
   return (
     <>
       <div className="flex flex-row ">

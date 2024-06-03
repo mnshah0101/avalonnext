@@ -36,7 +36,6 @@ function FileViewer({ file_id }: FileViewerProps) {
 
         const data = await res.json();
 
-        console.log("File data: ", data);
         setDocs([
           {
             uri: data.object.file_url,

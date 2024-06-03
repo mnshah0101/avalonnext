@@ -29,7 +29,6 @@ export default function LoginPage() {
     target: { name: string; value: SetStateAction<string> };
   }) => {
     if (e.target.name === "email") {
-      console.log(e.target.value);
       setEmail(e.target.value);
     } else {
       setPassword(e.target.value);

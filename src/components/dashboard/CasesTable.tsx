@@ -45,15 +45,10 @@ export default function CasesTable() {
         }
       );
 
-      console.log("This is the response", response);
-
       const data = await response.json();
-
-      console.log("This is the data", data);
 
       setCases(data.object);
       setLoading(false);
-      console.log("setting page loading to false");
       // Save the fetched cases to local storage
       localStorage.setItem("cases", JSON.stringify(data.object));
     } catch (error) {

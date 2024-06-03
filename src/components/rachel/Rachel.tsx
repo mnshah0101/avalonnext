@@ -195,8 +195,6 @@ export default function Rachel({ myCase, loading }: RachelProps) {
         inputElement.value = "";
       }
 
-      console.log("hitting getRachelResponse");
-
       await waitPromise();
 
       setAnswering(true);

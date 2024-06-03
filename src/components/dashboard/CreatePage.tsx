@@ -80,8 +80,6 @@ export default function CreatePage() {
         return;
       }
 
-      console.log(session);
-
       let response = await fetch(
         `${process.env.NEXT_PUBLIC_GO_URL}/createCase`,
         {

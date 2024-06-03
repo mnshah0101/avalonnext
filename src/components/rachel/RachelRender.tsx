@@ -47,7 +47,6 @@ export default function RachelRender() {
 
       const localCases = localStorage.getItem("cases");
       if (localCases) {
-        console.log("local cases", localCases);
         const parsedCases = JSON.parse(localCases);
         setCases(parsedCases);
         if (parsedCases.length > 0) {
@@ -83,14 +82,9 @@ export default function RachelRender() {
 
       let returnedCases = data.object;
 
-      console.log("there are cases", returnedCases);
-
       setCases((prevCases) => [...returnedCases]);
 
       localStorage.setItem("cases", JSON.stringify(returnedCases));
-
-      console.log("returned cases");
-      console.log(returnedCases);
 
       if (returnedCases.length > 0) {
         updateCase(returnedCases[0]);
@@ -126,8 +120,6 @@ export default function RachelRender() {
       );
 
       const data = await response.json();
-
-      console.log(data);
 
       updatedCase.documents = data.object;
 
