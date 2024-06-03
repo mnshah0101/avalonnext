@@ -83,6 +83,8 @@ function FileInput() {
 
         localStorage.removeItem("cases");
 
+        fetch(process.env.NEXT_PUBLIC_CELERY_URL + "/update_pinecone_index");
+
         setLoading(false);
 
         window.location.href = `/dashboard/case/${case_id}`;
