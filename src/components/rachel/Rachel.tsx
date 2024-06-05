@@ -262,16 +262,16 @@ export default function Rachel({ myCase, loading }: RachelProps) {
         caseId: myCase._id,
         caseInfo: myCase.case_info,
       });
+    });
 
-      socket.on("rachel", (data) => {
-        if (data.done !== true) {
-          updateLastMessage(
-            <RachelMessage text={data.answer} time={getDateNow()} />
-          );
-        } else {
-          saveMessage(data.answer, "rachel");
-        }
-      });
+    socket.on("rachel", (data) => {
+      if (data.done !== true) {
+        updateLastMessage(
+          <RachelMessage text={data.answer} time={getDateNow()} />
+        );
+      } else {
+        saveMessage(data.answer, "rachel");
+      }
     });
 
     setAnswering(false);
