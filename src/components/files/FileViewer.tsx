@@ -59,7 +59,7 @@ function FileViewer({ file_id }: FileViewerProps) {
       style={{ height: "100vh", width: "100%" }}
     >
       <h1 className="text-3xl">
-        {file_name && file_name.split("/")[1].slice(30)}
+        {file_name && file_name.split("/")[1].slice(32)}
       </h1>
 
       <DocViewer

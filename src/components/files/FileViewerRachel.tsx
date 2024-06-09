@@ -68,7 +68,7 @@ function FileViewerRachel({ file_id, onClose }: FileViewerProps) {
           Close
         </button>
         <h1 className="text-2xl mb-4">
-          {file_name && file_name.split("/")[1].slice(30)}
+          {file_name && file_name.split("/")[1].slice(32)}
         </h1>
         <DocViewer
           style={{ height: "60vh" }}
