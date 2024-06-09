@@ -5,6 +5,8 @@ import UserMessage from "./UserMessage";
 import DocDropdown from "./DocDropdown";
 import { io } from "socket.io-client";
 import { FaFileContract } from "react-icons/fa";
+import { DashboardModalProps } from "@uppy/react/types/DashboardModal";
+import FileViewerRachel from "../files/FileViewerRachel";
 
 type Case = {
   _id: string;
@@ -54,6 +56,22 @@ function getDateNow() {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
 }
 
+type ModalProps = {
+  fileId: string;
+  closeModal: () => void;
+};
+
+const Modal = ({ fileId, closeModal }: ModalProps) => (
+  <div className="modal fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+    <div className="modal-content mt-10 pt-10 bg-white p-5 rounded">
+      <button onClick={closeModal} className="bg-black text-white p-2 rounded">
+        Close
+      </button>
+      <FileViewerRachel file_id={fileId} />
+    </div>
+  </div>
+);
+
 export default function Rachel({ myCase, loading }: RachelProps) {
   if (loading) {
     return <></>;
@@ -84,6 +102,13 @@ export default function Rachel({ myCase, loading }: RachelProps) {
   const [answering, setAnswering] = useState<boolean>(false);
   const [selectedDocuments, setSelectedDocuments] = useState<Document[]>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [file_id, setFileId] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const handleFileClick = (fileId: string) => {
+    setFileId(fileId);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     getChats();
@@ -99,6 +124,7 @@ export default function Rachel({ myCase, loading }: RachelProps) {
   }, [selectedDocuments]);
 
   const scrollToBottom = () => {
+    console.log("scrolling");
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -122,6 +148,10 @@ export default function Rachel({ myCase, loading }: RachelProps) {
 
   const getChats = async () => {
     try {
+      while (myCase._id === undefined) {
+        await new Promise((r) => setTimeout(r, 500));
+      }
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_GO_URL}/getCaseChat`,
         {
@@ -143,7 +173,13 @@ export default function Rachel({ myCase, loading }: RachelProps) {
         if (message.sender === "user") {
           return <UserMessage text={message.text} time={message.timestamp} />;
         } else {
-          return <RachelMessage text={message.text} time={message.timestamp} />;
+          return (
+            <RachelMessage
+              text={message.text}
+              time={message.timestamp}
+              handleFile={handleFileClick}
+            />
+          );
         }
       });
 
@@ -245,7 +281,11 @@ export default function Rachel({ myCase, loading }: RachelProps) {
   const getRachelResponse = async (text: string) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      <RachelMessage text={"Thinking..."} time={getDateNow()} />,
+      <RachelMessage
+        text={"Thinking..."}
+        time={getDateNow()}
+        handleFile={handleFileClick}
+      />,
     ]);
 
     const doc_links = selectedDocuments.map(
@@ -267,7 +307,11 @@ export default function Rachel({ myCase, loading }: RachelProps) {
     socket.on("rachel", (data) => {
       if (data.done !== true) {
         updateLastMessage(
-          <RachelMessage text={data.answer} time={getDateNow()} />
+          <RachelMessage
+            text={data.answer}
+            time={getDateNow()}
+            handleFile={handleFileClick}
+          />
         );
       } else {
         saveMessage(data.answer, "rachel");
@@ -276,6 +320,15 @@ export default function Rachel({ myCase, loading }: RachelProps) {
 
     setAnswering(false);
   };
+
+  function CloseModal() {
+    setModalOpen(false);
+    scrollToBottom();
+  }
+
+  if (modalOpen) {
+    return <Modal fileId={file_id} closeModal={() => CloseModal()} />;
+  }
 
   return (
     <div className="container px-12 w-full">
