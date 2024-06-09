@@ -1,10 +1,13 @@
+"use client";
 import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useState, useEffect } from "react";
 
 type FileViewerProps = {
   file_id: string;
+  onClose: () => void;
 };
 
 type Doc = {
@@ -12,7 +15,7 @@ type Doc = {
   fileType: string;
 };
 
-function FileViewerRachel({ file_id }: FileViewerProps) {
+function FileViewerRachel({ file_id, onClose }: FileViewerProps) {
   const [docs, setDocs] = useState<Doc[]>([]);
   const [file_name, setFileName] = useState("");
 
@@ -56,20 +59,24 @@ function FileViewerRachel({ file_id }: FileViewerProps) {
   }, [file_id]);
 
   return (
-    <div
-      className="container-div flex flex-col justify-center items-center mt-4"
-      style={{ height: "70vh", width: "100%" }}
-    >
-      <h1 className="text-3xl">
-        {file_name && file_name.split("/")[1].slice(30)}
-      </h1>
-
-      <DocViewer
-        style={{ height: "90vh", width: "100%" }}
-        documents={docs}
-        config={{ header: { disableHeader: true } }}
-        pluginRenderers={DocViewerRenderers}
-      />
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg p-6 max-w-3xl w-full relative">
+        <button
+          className="absolute top-2 right-2 bg-black text-white rounded-full p-2 text-xs"
+          onClick={() => onClose()}
+        >
+          Close
+        </button>
+        <h1 className="text-2xl mb-4">
+          {file_name && file_name.split("/")[1].slice(30)}
+        </h1>
+        <DocViewer
+          style={{ height: "60vh" }}
+          documents={docs}
+          config={{ header: { disableHeader: true } }}
+          pluginRenderers={DocViewerRenderers}
+        />
+      </div>
     </div>
   );
 }

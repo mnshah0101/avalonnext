@@ -62,13 +62,8 @@ type ModalProps = {
 };
 
 const Modal = ({ fileId, closeModal }: ModalProps) => (
-  <div className="modal fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-    <div className="modal-content mt-10 pt-10 bg-white p-5 rounded">
-      <button onClick={closeModal} className="bg-black text-white p-2 rounded">
-        Close
-      </button>
-      <FileViewerRachel file_id={fileId} />
-    </div>
+  <div>
+    <FileViewerRachel file_id={fileId} onClose={closeModal} />
   </div>
 );
 
@@ -326,10 +321,6 @@ export default function Rachel({ myCase, loading }: RachelProps) {
     scrollToBottom();
   }
 
-  if (modalOpen) {
-    return <Modal fileId={file_id} closeModal={() => CloseModal()} />;
-  }
-
   return (
     <div className="container px-12 w-full">
       <div className="rachel-head flex justify-between mb-3">
@@ -343,6 +334,8 @@ export default function Rachel({ myCase, loading }: RachelProps) {
       </div>
       <hr />
       <br />
+      {modalOpen && <Modal fileId={file_id} closeModal={() => CloseModal()} />}
+
       <div className="messages overflow-y-scroll" style={{ height: "75vh" }}>
         {messages}
         <div ref={messagesEndRef}></div>
