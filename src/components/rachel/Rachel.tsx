@@ -289,6 +289,7 @@ export default function Rachel({ myCase, loading }: RachelProps) {
     );
 
     const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`);
+    socket.off("rachel");
 
     socket.on("connect", () => {
       socket.emit("rachel", {
@@ -310,8 +311,11 @@ export default function Rachel({ myCase, loading }: RachelProps) {
         );
       } else {
         saveMessage(data.answer, "rachel");
+        socket.disconnect();
       }
     });
+
+    //disconnect the socket
 
     setAnswering(false);
   };
