@@ -144,8 +144,10 @@ export default function Rachel({ myCase, loading }: RachelProps) {
   const getChats = async () => {
     try {
       while (myCase._id === undefined) {
-        await new Promise((r) => setTimeout(r, 500));
+        await new Promise((r) => setTimeout(r, 100));
       }
+
+      console.log(myCase._id);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_GO_URL}/getCaseChat`,
@@ -163,6 +165,10 @@ export default function Rachel({ myCase, loading }: RachelProps) {
       const data = await response.json();
 
       const returned_messages = data.messages;
+
+      if (returned_messages.length === 0) {
+        return;
+      }
 
       const messages = returned_messages.map((message: any) => {
         if (message.sender === "user") {
